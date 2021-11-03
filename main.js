@@ -40,14 +40,13 @@ selbtn.addEventListener('click', () => {
 
     //generazione numeri random(bombe)
     const bombNumber = genBombs(squareNumber, 16)
-    console.log('bombe generate', bombNumber);
+    console.log('bombe', bombNumber);
 
-    
+
     //generazione della griglia
     const grid = document.createElement('div');
     grid.classList.add('grid');
     
-    const genNum = [];
 
     for(let i = 0; i < squareNumber; i++){ 
         
@@ -61,6 +60,7 @@ selbtn.addEventListener('click', () => {
     contGrid.append(grid);
     // genera numeri
 
+    console.log(genBombs(1, 10));
    
 });
 
@@ -79,7 +79,7 @@ function genBombs(totSquare, totBombs){
 }
 
 function getRandNumber(min, max){
-    return  Math.floor( Math.random (max - min +1) )+ min;
+    return  Math.floor( Math.random()* (max - min + 1) + min)+ min;
 }
 
 // function genNumberSquare(min, max);
