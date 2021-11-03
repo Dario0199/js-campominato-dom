@@ -32,7 +32,7 @@ selbtn.addEventListener('click', () => {
             break;
         case '3':
             squareNumber = 49;
-            squareForSide = 7
+            squareForSide = 7;
             break;
     }
     console.log(squareNumber);
@@ -42,6 +42,11 @@ selbtn.addEventListener('click', () => {
     const bombNumber = genBombs(squareNumber, 16)
     console.log('bombe', bombNumber);
 
+
+    //numero tentativi
+    const totAttempts = [];
+    const maxAttempts = squareNumber - bombNumber.length;
+    console.log('tentativi', maxAttempts);
 
     //generazione della griglia
     const grid = document.createElement('div');
@@ -54,15 +59,65 @@ selbtn.addEventListener('click', () => {
         grid.append(square)
 
         square.addEventListener('click', function(){
-            square.classList.add('click-bg');
+            // square.classList.add('click-bg');
+            gesClickSquare(square, bombNumber, totAttempts, maxAttempts,)
+            
         });
     }
     contGrid.append(grid);
     // genera numeri
-
-    console.log(genBombs(1, 10));
-   
 });
+
+//click su square
+function gesClickSquare(square, bombNumber, totAttempts, maxAttempts,){
+    const number = parseInt(square.innerText);
+    console.log(number);
+
+    if(bombNumber.includes(number)){
+        endGame(bombNumber, totAttempts, maxAttempts)
+    } else if (!totAttempts.includes(number)){
+        //sfondo
+        square.classList.add('neutral')
+        //numero tentativi
+        totAttempts.push(number)
+        console.log('tentativi', totAttempts);
+        //tentativi massimi
+        if(totAttempts.length === maxAttempts){
+            endGame(bombNumber, totAttempts, maxAttempts)
+        }
+    }
+}
+
+//fine del gioco
+function endGame(bombNumber, totAttempts, maxAttempts){
+    //ottenere tutte le square
+    const allSquare = document.querySelectorAll('.square');
+    console.log(allSquare);
+    //far apparire tutte le bombe
+    for(let i = 0; i < allSquare.length; i++){
+         const squareCells = allSquare[i];
+         const squareValue = parseInt(squareCells.innerText);
+
+         if(bombNumber.includes(squareValue)){
+             squareCells.classList.add('bomb');
+         }
+    }
+    //testo
+    let message = `Hai vinto!!! Hai realizzato ${maxAttempts} tentativi`;
+
+    //perdita
+    if(totAttempts.length < maxAttempts){
+        message = `Hai perso :( Hai realizzato ${totAttempts.length} tentativi`;
+    }
+
+    const messageDom = document.createElement('div');
+    messageDom.classList.add('message');
+    messageDom.append(message);
+    document.querySelector('.cont-grid').append(messageDom);
+
+    document.querySelector('.grid').classList.add('end')
+}
+
 
 // generazione bombe
 function genBombs(totSquare, totBombs){
@@ -79,7 +134,7 @@ function genBombs(totSquare, totBombs){
 }
 
 function getRandNumber(min, max){
-    return  Math.floor( Math.random()* (max - min + 1) + min)+ min;
+    return  Math.floor( Math.random()* (max - min + 1) + min);
 }
 
 // function genNumberSquare(min, max);

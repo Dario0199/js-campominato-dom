@@ -72,13 +72,25 @@ header .right{
     justify-content: center;
     align-items: center;
     border: 2px solid white;
-    cursor: pointers;
+    cursor: pointer;
 }
 
-.click-bg{
+.square.neutral, .square.bomb{
+    cursor: default;
+    color: white;
+}
+
+.square.neutral{
     background: blue;
 }
 
+.square.bomb{
+    background: red;
+}
+
+.grid.end .square{
+    pointer-events: none;
+}
 /* footer */
 footer{
     display: flex;
@@ -91,4 +103,8 @@ footer{
 
 span a{
     color: blueviolet;
+}
+
+.message{
+    text-align: center;
 }
